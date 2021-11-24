@@ -31,7 +31,7 @@ class GraphQLConfig {
     return client;
   }
 
-  GraphQLClient clientToQuery() {
+  static GraphQLClient clientToQuery() {
     AuthLink authLink = AuthLink(
       getToken: () async => 'Bearer $token',
     );

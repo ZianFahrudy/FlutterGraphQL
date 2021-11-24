@@ -12,12 +12,11 @@ import 'package:learn_graphql/app/core/network/graphql_config.dart';
 
 @LazySingleton(as: PokemonRepository)
 class PokemonRepositoryImpl implements PokemonRepository {
+  final _client = GraphQLConfig.clientToQuery();
+
   @override
   Stream<Either<Failure, DataPokemonModel>> getPokemonList() async* {
     try {
-      GraphQLConfig graphQLConfig = GraphQLConfig();
-      GraphQLClient _client = graphQLConfig.clientToQuery();
-
       QueryResult result = await _client.query(QueryOptions(
           document: gql(Query.pokemonList), variables: {"limit": 20}));
       var data = DataPokemonModel.fromJson(result.data!);
@@ -38,9 +37,6 @@ class PokemonRepositoryImpl implements PokemonRepository {
   Stream<Either<Failure, DataDetailPokemonModel>> getDetailPokemon(
       String name) async* {
     try {
-      GraphQLConfig graphQLConfig = GraphQLConfig();
-      GraphQLClient _client = graphQLConfig.clientToQuery();
-
       QueryResult result = await _client.query(QueryOptions(
           document: gql(Query.detailPokemon), variables: {"name": name}));
       var data = DataDetailPokemonModel.fromJson(result.data!);
